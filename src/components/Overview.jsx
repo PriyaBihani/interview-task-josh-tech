@@ -1,11 +1,19 @@
 import { memo } from "react";
+
 const Overview = ({
   questions,
   visitedQuestions,
   attemptedQuestions,
   currentQuestion,
-  handleQuestionClick,
+  goToQuestion,
 }) => {
+  console.log({
+    questions,
+    visitedQuestions,
+    attemptedQuestions,
+    currentQuestion,
+    goToQuestion,
+  });
   const rows = [];
   for (let i = 0; i < questions.length; i += 3) {
     const row = questions.slice(i, i + 3);
@@ -21,36 +29,27 @@ const Overview = ({
             {row.map((question) => {
               const isCurrent = question.id === currentQuestion.id;
               const isVisited = visitedQuestions.includes(question.id);
-              const isAttempted =
-                attemptedQuestions[question.id - 1] !== undefined;
-              console.log({
-                isCurrent,
-                isVisited,
-                isAttempted,
-              });
+              const isAttempted = attemptedQuestions[question.id] !== undefined;
               const color = isCurrent
-                ? "blue"
+                ? "rgb(59 130 246)"
                 : isVisited && isAttempted
-                ? "green"
+                ? "rgb(34 197 94)"
                 : isVisited && !isAttempted
-                ? "red"
-                : "gray";
+                ? "rgb(239 68 68)"
+                : "rgb(229 231 235)";
               const textColor =
-                isCurrent || isAttempted || isVisited ? "white" : "black";
-              const backgroundColor = `bg-${color}-500`;
-              console.log({ backgroundColor });
-              //   isCurrent
-              //     ? `bg-${color}-500`
-              //     : `bg-${color}-100`;
+                isCurrent || isAttempted || isVisited ? "#fff" : "#000";
+
               return (
                 <div
                   key={question.id}
+                  style={{ backgroundColor: color, color: textColor }}
                   className={`flex items-center justify-center w-8 h-8 rounded-full 
-                  ${backgroundColor} text-${textColor} font-bold mb-2 mx-1 cursor-pointer
+                  font-bold mb-2 mx-1 cursor-pointer
                    border border-black`}
-                  onClick={() => handleQuestionClick(question)}
+                  onClick={() => goToQuestion(question.id)}
                 >
-                  {question.id}
+                  {question.id + 1}
                 </div>
               );
             })}

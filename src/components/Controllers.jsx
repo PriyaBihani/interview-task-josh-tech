@@ -8,22 +8,22 @@ const Controllers = ({
   return (
     <>
       <div className="flex justify-between w-full">
-        {currentQuestionId != 1 && (
+        {currentQuestionId != 0 && (
           <button
             type="button"
             disabled={currentQuestionId === 1}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={handlePrevQuestion}
+            onClick={() => handlePrevQuestion(currentQuestionId)}
           >
             Prev
           </button>
         )}
-        {currentQuestionId != questionLength && (
+        {currentQuestionId != questionLength - 1 && (
           <button
             type="button"
-            disabled={currentQuestionId === questionLength}
+            disabled={currentQuestionId === questionLength - 1}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-            onClick={handleNextQuestion}
+            onClick={() => handleNextQuestion(currentQuestionId)}
           >
             Next
           </button>

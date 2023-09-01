@@ -12,7 +12,9 @@ const Question = ({ question, handleAnswer }) => {
     <div className="flex flex-col items-left">
       <h2
         className="text-2xl font-bold mb-4"
-        dangerouslySetInnerHTML={{ __html: question.question }}
+        dangerouslySetInnerHTML={{
+          __html: `${question.id + 1}. ` + question.question,
+        }}
       ></h2>
       <div className="flex flex-col items-start w-full">
         <div className="flex justify-between w-full">

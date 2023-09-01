@@ -21,17 +21,16 @@ const Quiz = () => {
         question: question.question,
         options: [...question.incorrect_answers, question.correct_answer],
         correct_answer: question.correct_answer,
-        id: index + 1,
+        id: index,
       }));
       setQuestions(formattedQuestions);
       setCurrentQuestion(formattedQuestions[0]);
-      setVisitedQuestions([1]);
+      setVisitedQuestions([0]);
     };
     fetchQuestions();
   }, []);
 
-  const handleAnswer = (questionId, answer) => {
-    const questionIndex = questions.findIndex((q) => q.id === questionId);
+  const handleAnswer = (questionIndex, answer) => {
     setAnswers((prevAnswers) => {
       const newAnswers = [...prevAnswers];
       newAnswers[questionIndex] = answer;
@@ -39,29 +38,35 @@ const Quiz = () => {
     });
   };
 
-  const handleNextQuestion = () => {
-    if (currentQuestion.id === questions.length) return;
-    const curQuestion = questions.findIndex(
-      (question) => question.id === currentQuestion.id
+  const handleNextQuestion = (questionIndex) => {
+    if (questionIndex === questions.length - 1) return;
+
+    setCurrentQuestion(questions[questionIndex + 1]);
+    setVisitedQuestions((prevVisitedQuestions) =>
+      !prevVisitedQuestions.includes(questionIndex + 1)
+        ? [...prevVisitedQuestions, questionIndex + 1]
+        : prevVisitedQuestions
     );
-    if (curQuestion != -1) {
-      setCurrentQuestion(questions[curQuestion + 1]);
-      setVisitedQuestions((prevVisitedQuestions) =>
-        !visitedQuestions.includes(curQuestion + 1)
-          ? [...prevVisitedQuestions, curQuestion + 1]
-          : prevVisitedQuestions
-      );
-    }
   };
 
-  const handlePrevQuestion = () => {
-    const prevQuestion = questions
-      .slice(0, currentQuestion.id - 1)
-      .reverse()
-      .find((question) => visitedQuestions.includes(question.id));
-    if (prevQuestion) {
-      setCurrentQuestion(prevQuestion);
-    }
+  const handlePrevQuestion = (questionIndex) => {
+    if (questionIndex === 0) return;
+
+    setCurrentQuestion(questions[questionIndex - 1]);
+    setVisitedQuestions((prevVisitedQuestions) =>
+      !prevVisitedQuestions.includes(questionIndex - 1)
+        ? [...prevVisitedQuestions, questionIndex - 1]
+        : prevVisitedQuestions
+    );
+  };
+
+  const goToQuestion = (questionIndex) => {
+    setCurrentQuestion(questions[questionIndex]);
+    setVisitedQuestions((prevVisitedQuestions) =>
+      !prevVisitedQuestions.includes(questionIndex)
+        ? [...prevVisitedQuestions, questionIndex]
+        : prevVisitedQuestions
+    );
   };
 
   const handleSubmit = (e) => {
@@ -80,6 +85,7 @@ const Quiz = () => {
               visitedQuestions={visitedQuestions}
               attemptedQuestions={answers}
               currentQuestion={currentQuestion}
+              goToQuestion={goToQuestion}
             />
           </div>
           <div className="w-1/2">
