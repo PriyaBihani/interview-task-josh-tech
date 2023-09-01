@@ -5,6 +5,8 @@ import Question from "../components/Question";
 import Timer from "../components/Timer";
 import Controllers from "../components/Controllers";
 import { fetchQuestions } from "../utils/api";
+import Loader from "../components/Loader";
+import Guide from "../components/Guide";
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -66,9 +68,14 @@ const Quiz = () => {
     navigate("/report", { state: { answers, questions } });
   };
 
+  if (questions.length === 0) return <Loader />;
+
   return (
     <>
-      <Timer timeLimit={1800} handleTimeout={handleSubmit} />
+      <div className="flex justify-between items-center m-10">
+        <Guide />
+        <Timer timeLimit={1800} handleTimeout={handleSubmit} />
+      </div>
       <div className="flex flex-col-reverse md:flex-row justify-between items-start w-full">
         <div className="justify-center w-1/5 flex justify-left">
           <Overview
