@@ -3,15 +3,16 @@ import { useNavigate } from "react-router";
 import Overview from "../components/Overview";
 import Question from "../components/Question";
 import Timer from "../components/Timer";
+import Controllers from "../components/Controllers";
 
 const Quiz = () => {
   const navigate = useNavigate();
-  const [questions, setQuestions] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState({});
-  const [visitedQuestions, setVisitedQuestions] = useState([]);
-  const [attemptedQuestions, setAttemptedQuestions] = useState([]);
-  const [score, setScore] = useState(0);
-
+  const [questions, setQuestions] = useState([]); // will store all the questions fetched from the API
+  const [currentQuestion, setCurrentQuestion] = useState({}); // current question
+  // initially answers is an array of null values with length equal to that of the number of questions
+  const [answers, setAnswers] = useState(questions.map(() => null)); // answers to the attempted questions
+  const [visitedQuestions, setVisitedQuestions] = useState([]); // indices of visited questions
+  console.log("ans", answers);
   useEffect(() => {
     const fetchQuestions = async () => {
       const response = await fetch("https://opentdb.com/api.php?amount=15");
@@ -30,28 +31,26 @@ const Quiz = () => {
   }, []);
 
   const handleAnswer = (questionId, answer) => {
-    setAttemptedQuestions((prevAttemptedQuestions) => {
-      const newAttemptedQuestions = [...prevAttemptedQuestions];
-      newAttemptedQuestions[questionId - 1] = answer;
-      return newAttemptedQuestions;
+    const questionIndex = questions.findIndex((q) => q.id === questionId);
+    setAnswers((prevAnswers) => {
+      const newAnswers = [...prevAnswers];
+      newAnswers[questionIndex] = answer;
+      return newAnswers;
     });
-    if (currentQuestion.answer === answer) {
-      setScore((prevScore) => prevScore + 1);
-    }
   };
 
   const handleNextQuestion = () => {
-    const nextQuestion = questions.find(
-      (question) => !visitedQuestions.includes(question.id)
+    if (currentQuestion.id === questions.length) return;
+    const curQuestion = questions.findIndex(
+      (question) => question.id === currentQuestion.id
     );
-    if (nextQuestion) {
-      setCurrentQuestion(nextQuestion);
-      setVisitedQuestions((prevVisitedQuestions) => [
-        ...prevVisitedQuestions,
-        nextQuestion.id,
-      ]);
-    } else {
-      navigate("/report");
+    if (curQuestion != -1) {
+      setCurrentQuestion(questions[curQuestion + 1]);
+      setVisitedQuestions((prevVisitedQuestions) =>
+        !visitedQuestions.includes(curQuestion + 1)
+          ? [...prevVisitedQuestions, curQuestion + 1]
+          : prevVisitedQuestions
+      );
     }
   };
 
@@ -67,43 +66,33 @@ const Quiz = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleNextQuestion();
-  };
-
-  const handleTimeout = () => {
-    handleNextQuestion();
+    navigate("/report", { state: { answers, questions } });
   };
 
   return (
     <>
-      <Timer timeLimit={1800} handleTimeout={handleTimeout} />
+      <Timer timeLimit={1800} handleTimeout={handleSubmit} />
       <div className="flex flex-col items-center">
-        {/* <h1 className="text-4xl font-bold mb-8">Quiz</h1> */}
         <div className="flex flex-row justify-center items-start w-full">
           <div className="w-3/12 flex justify-left">
             <Overview
               questions={questions}
               visitedQuestions={visitedQuestions}
-              attemptedQuestions={attemptedQuestions}
+              attemptedQuestions={answers}
               currentQuestion={currentQuestion}
             />
           </div>
           <div className="w-1/2">
-            <Question
-              question={currentQuestion}
-              handleAnswer={handleAnswer}
-              handleSubmit={handleSubmit}
-              handlePrevQuestion={handlePrevQuestion}
+            <Question question={currentQuestion} handleAnswer={handleAnswer} />
+            <Controllers
+              currentQuestionId={currentQuestion.id}
               handleNextQuestion={handleNextQuestion}
+              handlePrevQuestion={handlePrevQuestion}
+              handleSubmit={handleSubmit}
+              questionLength={questions.length}
             />
           </div>
         </div>
-        <button
-          onClick={handleSubmit}
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
-        >
-          Submit Quiz
-        </button>
       </div>
     </>
   );

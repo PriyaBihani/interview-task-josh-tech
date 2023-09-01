@@ -1,3 +1,4 @@
+import { memo } from "react";
 const Overview = ({
   questions,
   visitedQuestions,
@@ -10,7 +11,7 @@ const Overview = ({
     const row = questions.slice(i, i + 3);
     rows.push(row);
   }
-  console.log(rows);
+
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">Overview</h2>
@@ -22,6 +23,11 @@ const Overview = ({
               const isVisited = visitedQuestions.includes(question.id);
               const isAttempted =
                 attemptedQuestions[question.id - 1] !== undefined;
+              console.log({
+                isCurrent,
+                isVisited,
+                isAttempted,
+              });
               const color = isCurrent
                 ? "blue"
                 : isVisited && isAttempted
@@ -29,10 +35,13 @@ const Overview = ({
                 : isVisited && !isAttempted
                 ? "red"
                 : "gray";
-              const textColor = isCurrent ? "white" : "black";
-              const backgroundColor = isCurrent
-                ? `bg-${color}-500`
-                : `bg-${color}-100`;
+              const textColor =
+                isCurrent || isAttempted || isVisited ? "white" : "black";
+              const backgroundColor = `bg-${color}-500`;
+              console.log({ backgroundColor });
+              //   isCurrent
+              //     ? `bg-${color}-500`
+              //     : `bg-${color}-100`;
               return (
                 <div
                   key={question.id}
@@ -52,4 +61,4 @@ const Overview = ({
   );
 };
 
-export default Overview;
+export default memo(Overview);
