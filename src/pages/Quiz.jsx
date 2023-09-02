@@ -72,12 +72,12 @@ const Quiz = () => {
 
   return (
     <>
-      <div className="flex justify-between items-center m-10">
+      <div className="flex flex-col items-center m-4 md:m-8 md:flex-row md:justify-between md:items-center">
         <Guide />
         <Timer timeLimit={1800} handleTimeout={handleSubmit} />
       </div>
-      <div className="flex flex-col-reverse md:flex-row justify-between items-start w-full">
-        <div className="justify-center w-1/5 flex justify-left">
+      <div className="flex flex-col md:flex-row justify-between items-start w-full">
+        <div className="justify-center w-full md:w-1/5 flex justify-left">
           <Overview
             questions={questions}
             visitedQuestions={visitedQuestions}
@@ -85,9 +85,10 @@ const Quiz = () => {
             currentQuestion={currentQuestion}
             goToQuestion={goToQuestion}
             handleQuestionClick={goToQuestion}
+            handleSubmit={handleSubmit}
           />
         </div>
-        <div className="w-4/5 px-3 pr-10">
+        <div className="w-full flex flex-col md:flex-col  md:w-4/5 px-3 md:pr-10">
           <Question question={currentQuestion} handleAnswer={handleAnswer} />
           <Controllers
             currentQuestionId={currentQuestion.id}

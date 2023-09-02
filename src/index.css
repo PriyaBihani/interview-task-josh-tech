@@ -19,3 +19,8 @@ code {
 .controller {
   margin-top: 50px;
 }
+@media (max-width: 768px) {
+  .controller {
+    margin-top: 0px;
+  }
+}

@@ -4,6 +4,7 @@ const Overview = ({
   attemptedQuestions,
   currentQuestion,
   goToQuestion,
+  handleSubmit,
 }) => {
   const rows = [];
   for (let i = 0; i < questions.length; i += 3) {
@@ -13,8 +14,8 @@ const Overview = ({
 
   return (
     <div className="flex flex-col items-center">
-      <h2 className="text-2xl font-bold mb-4">Overview</h2>
-      <div className="grid grid-cols-7  m-3 md:grid-cols-3">
+      <h2 className=" text-md md:text-2xl font-bold mb-4">Overview</h2>
+      <div className="grid grid-cols-7 m-3 md:grid-cols-3">
         {questions.map((question) => {
           const isCurrent = question.id === currentQuestion.id;
           const isVisited = visitedQuestions.includes(question.id);
@@ -43,6 +44,12 @@ const Overview = ({
           );
         })}
       </div>
+      <button
+        onClick={handleSubmit}
+        className="bg-red-500 hidden md:block hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 mx-auto hover:cursor-pointer select-none"
+      >
+        Submit Quiz
+      </button>
     </div>
   );
 };

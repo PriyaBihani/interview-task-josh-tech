@@ -24,7 +24,7 @@ const Timer = ({ timeLimit, handleTimeout }) => {
   };
 
   return (
-    <div className="text-4xl text-right font-bold m-8">
+    <div className=" text-xl m-4 md:text-4xl text-right font-bold md:m-8">
       Time left: {formatTime(timeLeft)}
     </div>
   );

@@ -24,7 +24,7 @@ const Report = () => {
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-3xl font-bold my-4">Quiz Report</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-1/2">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-4/5 md:w-1/2">
         <div className="bg-green-500 text-white p-4 rounded-lg shadow-md">
           <h3 className="text-lg font-bold mb-2">Score</h3>
           <p className="text-3xl font-bold text-right">
@@ -47,7 +47,7 @@ const Report = () => {
       {questions.map((question, index) => (
         <div
           key={index}
-          className="my-4 w-1/2 bg-white p-4 rounded-lg shadow-md"
+          className="my-4 w-4/5 md:w-1/2 bg-white p-4 rounded-lg shadow-md"
         >
           <h3
             className="text-lg font-bold mb-2"

@@ -9,22 +9,25 @@ const Question = ({ question, handleAnswer }) => {
   };
 
   return (
-    <div className="flex flex-col items-left mx-3 md:mx-0">
+    <div className="flex flex-grow flex-col my-4 md:my-0 items-left mx-3 md:mx-0">
       <h2
-        style={{ minHeight: "50px" }}
-        className="text-2xl font-bold"
+        style={{ minHeight: "70px" }}
+        className="text-lg md:text-2xl font-bold select-none"
         dangerouslySetInnerHTML={{
           __html: `${question.id + 1}. ` + question.question,
         }}
       ></h2>
       <div
-        style={{ minHeight: "50px" }}
-        className="grid grid-cols-2 gap-2 w-auto"
+        style={{ minHeight: "160px" }}
+        className="grid grid-cols-2  gap-1 md:gap-2  w-full"
       >
         {question.options &&
-          question.options.map((option) => (
-            <div key={option} className="m-4 w-3/4">
+          question.options.map((option, index) => (
+            <div key={option} className="w-full mt-3">
               <button
+                style={{
+                  float: index % 2 === 0 ? "left" : "right",
+                }}
                 type="button"
                 onClick={() => handleOptionClick(option)}
                 className={`p-2 border border-gray-400 rounded-lg flex items-center flex-wrap justify-center ${
@@ -33,7 +36,10 @@ const Question = ({ question, handleAnswer }) => {
                     : "bg-white text-gray-800"
                 }`}
               >
-                <div dangerouslySetInnerHTML={{ __html: option }}></div>
+                <div
+                  className="text-md"
+                  dangerouslySetInnerHTML={{ __html: option }}
+                ></div>
               </button>
             </div>
           ))}
