@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Quiz App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+The Quiz App is a web application that allows users to take a quiz and see their progress. The application displays a list of questions, and the user can select a question to answer. The user can mark a question as answered, and the application will display the progress of the quiz. Users can use the next and prev buttons to reach other questions. Users can also directly click on overview buttons. The application is built using React and Tailwind CSS. The main components of the application are:
 
-## Available Scripts
+* App: The main component that contains the routs and components
+* Quiz: The component that renders the questions and overview of all questions.
+* Report: After the submission, this will display the report of the quiz.
 
-In the project directory, you can run:
+This quiz application is made using the endpoint https://opentdb.com/api.php?amount=15 I have implemented `react-router` and `react-router-dom` to create routes.
+I have also used `react-hot-toast` to set up the notifications on error. I have also used tailwind CSS to create my app and made it responsive to the mobile size. Also, added a loader while loading the questions. The logic behind my file structure is 
 
-### `npm start`
+```
+\src
+    \components  ----> contains all the app-related components
+    \layout      ----> contains layout-related components
+    \pages       ----> contains components that are accessible using routes
+    \utils       ----> contains extra files like constants or fetching data etc.
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
+To install the Quiz App, follow these steps:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* Clone the repository: git clone https://github.com/PriyaBihani/interview-task-josh-tech.git
+* Install the dependencies: npm install
+* Start the development server: npm start
+* The application will be available at http://localhost:3000.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Challenges Faced
+* One of the challenges faced during the development of the Quiz App was displaying the answered/unanswered/not-visited in the overview. We overcame this challenge by using the visitedQuestions and attemptedQuestions state and passed them as props in Overview Components to mark the questions according to the specific color. And also provided a Guide for easier access.
+* While loading the data from API, the user was showing NaN or undefined in the data, which I solved by adding a loader.
+* In the reports page for a detailed overview I have also added a metrics section. In which unanswered questions metric was proving to be tricky, which I solved by correctly defining my initial values.
+  
